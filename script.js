@@ -8,16 +8,49 @@ let selectedBookingDate = null;
 const bookedDays = [5, 12, 18, 27, 28]; 
 
 /**
- * Navigation
+ * Navigation & Mobile Menu
  */
 function showPage(pageId) {
+    // Hide all pages
     document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     
-    document.getElementById('page-' + pageId).classList.add('active');
-    document.getElementById('nav-' + pageId).classList.add('active');
+    // Update Nav Links (Desktop & Mobile)
+    document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(l => {
+        l.classList.remove('active');
+        if (l.id === 'nav-' + pageId || l.getAttribute('onclick').includes(pageId)) {
+            l.classList.add('active');
+        }
+    });
+    
+    // Activate Page
+    const page = document.getElementById('page-' + pageId);
+    if (page) page.classList.add('active');
+    
+    // Auto-close mobile menu when an item is selected
+    const menu = document.getElementById('mobile-menu');
+    if (!menu.classList.contains('translate-x-full')) {
+        toggleMobileMenu();
+    }
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const backdrop = document.getElementById('mobile-backdrop');
+    const isHidden = menu.classList.contains('translate-x-full');
+    
+    if (isHidden) {
+        menu.classList.remove('translate-x-full');
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+        backdrop.classList.add('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = 'hidden';
+    } else {
+        menu.classList.add('translate-x-full');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+        backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = '';
+    }
 }
 
 /**
@@ -112,20 +145,6 @@ function handleBooking(e) {
     }, 500);
 }
 
-/**
- * Mobile Menu
- */
-function toggleMobileMenu() {
-    // Basic implementation for demo
-    const nav = document.querySelector('.hidden.md:flex');
-    nav.classList.toggle('hidden');
-    nav.classList.toggle('flex-col');
-    nav.classList.toggle('absolute');
-    nav.classList.toggle('top-20');
-    nav.classList.toggle('bg-white');
-    nav.classList.toggle('w-full');
-    nav.classList.toggle('p-6');
-}
 
 // Initialize on Load
 window.onload = () => {
