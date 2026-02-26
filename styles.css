@@ -106,12 +106,12 @@ body {
 }
 
 .calendar-day.available {
-    background-color: #fdfcfb;
+    background-color: #F0FDF4;
     border: 1px solid transparent;
 }
 
 .calendar-day.booked {
-    background-color: #f9f9f9;
+    background-color: #F5F5F4;
     color: #e5e5e5;
     cursor: not-allowed;
     pointer-events: none;
@@ -158,3 +158,4 @@ body {
     filter: sepia(0%) contrast(100%);
     transform: scale(1.08);
 }
+
